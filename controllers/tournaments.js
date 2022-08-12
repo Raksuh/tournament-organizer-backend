@@ -100,67 +100,6 @@ export const updateTournament = async (req, res) => {
   res.json(updatedTournament);
 };
 
-export const addComment = async (req, res) => {
-  const { id: _id } = req.params;
-  const { comment } = req.body;
-
-  if (!req.userId) {
-    return res.status(401).json({ message: 'Unauthenticated' });
-  }
-
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send(`No tournament with id: ${_id}`);
-
-  const tournament = await Tournament.findById(_id);
-  tournament.comments.push(comment);
-
-  const updatedTournament = await Tournament.findByIdAndUpdate(_id, tournament, { new: true });
-
-  res.json(updatedTournament);
-};
-
-export const addPlayer = async (req, res) => {
-  const { id: _id } = req.params;
-
-  if (!req.userId) {
-    return res.status(401).json({ message: 'Unauthenticated' });
-  }
-
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send(`No tournament with id: ${_id}`);
-
-  const tournament = await Tournament.findById(_id);
-  if (!tournament.players.includes(String(req.userId))) {
-    tournament.players.push(req.userId);
-  }
-  tournament.playerCount = tournament.players.length ?? 0;
-
-  const updatedTournament = await Tournament.findByIdAndUpdate(_id, tournament, { new: true });
-
-  res.json(updatedTournament);
-};
-
-export const removePlayer = async (req, res) => {
-  const { id: _id } = req.params;
-
-  if (!req.userId) {
-    return res.status(401).json({ message: 'Unauthenticated' });
-  }
-
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send(`No tournament with id: ${_id}`);
-
-  const tournament = await Tournament.findById(_id);
-  if (tournament.players.includes(String(req.userId))) {
-    tournament.players = tournament.players.filter((id) => id !== String(req.userId));
-  }
-  tournament.playerCount = tournament.players.length ?? 0;
-
-  const updatedTournament = await Tournament.findByIdAndUpdate(_id, tournament, { new: true });
-
-  res.json(updatedTournament);
-};
-
 export const deleteTournament = async (req, res) => {
   const { id: _id } = req.params;
 
