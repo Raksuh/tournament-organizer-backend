@@ -11,33 +11,40 @@ const tournamentSchema = mongoose.Schema({
   at: String,
   dueDate: String,
   selectedFile: String,
-  comments: {
-    type: [String],
-    default: [],
-  },
-  players: {
-    type: [String],
-    default: [],
-  },
-  // [{
-  //     firstName: String,
-  //     lastName: String,
-  //     isPlayer: Boolean,
-  //     isAnAccompanyingPerson: Boolean,
-  //     isDriver: Boolean,
-  // }],
-  playerCount: {
-    type: Number,
-    default: 0,
-  },
-  accompagnyingPeople: [String],
-  vehicules: [
+  registrations: [
     {
-      driver: String,
-      numberOfSeat: {
+      // Identity
+      playerId: String,
+      typeOfPerson: String,
+      firstName: String,
+      lastName: String,
+      email: String,
+      phone: String,
+      // Meals
+      needLunchPack: Boolean,
+      isVegetarianLunchPack: Boolean,
+      needDinner: Boolean,
+      isVegetarianDinner: Boolean,
+      // Journey
+      personnalVehicle: Boolean,
+      seats: {
         type: Number,
         default: 0,
       },
+      isDepartureIndepedent: Boolean,
+      departureTime: {
+        type: Date,
+        default: new Date(),
+      },
+      isReturnIndepedent: Boolean,
+      returnTime: {
+        type: Date,
+        default: new Date(),
+      },
+      needHotelForFriday: Boolean,
+      needHotelForSaturday: Boolean,
+      // Remarks
+      remarks: String,
     },
   ],
 });
